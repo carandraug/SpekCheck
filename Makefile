@@ -12,6 +12,10 @@ help:
 	@echo "Targets:"
 	@echo "    serve [PORT=8000]    serve site at http://localhost:8000"
 	@echo "    update-index         update the data index files"
+	@echo "    update-rest          update the 'RESTful' API directories" 
+
+API_versions = \
+  1
 
 FILES = \
   images/visible-spectrum.png
@@ -27,6 +31,17 @@ DATA_INDEX_FILES = \
 
 images/visible-spectrum.png: src/create-spectrum.py
 	$(PYTHON) $^ $@
+
+define REST_API_RULE
+update-rest-v$1: src/build-restapi.py
+	$(PYTHON) $$< data/ api $1
+endef
+
+$(foreach version, $(API_versions), \
+          $(eval $(call REST_API_RULE,$(version))) \
+)
+
+update-rest: $(foreach version, $(API_versions), update-rest-v$(version))
 
 update-index: $(DATA_INDEX_FILES)
 	src/update-index-files.sh
