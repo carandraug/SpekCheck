@@ -28,6 +28,7 @@ RSVG_CONVERT ?= rsvg-convert
 SED ?= sed
 SHASUM ?= shasum
 TAR ?= tar
+WGET ?= wget
 XXD ?= xxd
 ZIP ?= zip
 
@@ -325,6 +326,9 @@ maintainer-clean: distclean
 	$(RM) $(buildable_files)
 	$(RM) -r $(npm_basedir)
 
+update_fpbase_dyes:
+	$(WGET) -O data/fpbase_data.json https://www.fpbase.org/api/proteins/spectra/?format=json
+	$(PYTHON) src/update-from-fpbase.py data/dyes data/fpbase_data.json
 
 .PHONY: \
   all \
@@ -337,4 +341,5 @@ maintainer-clean: distclean
   distdir \
   help \
   maintainer-clean \
-  serve
+  serve \
+  update_fpbase_dyes

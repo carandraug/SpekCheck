@@ -5,6 +5,10 @@
     displayed minimum (300nm by default).  This issue did not affect
     the efficiency computations, it only clipped the data on the plot.
 
+ ** Source release now includes a Python script to download
+    fluorescent protein spectra from FPbase (https://www.fpbase.org/)
+    and convert it to a format that can be used by SPEKcheck.
+
  ** New detectors:
 
         Prime95B
